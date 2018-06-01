@@ -1,13 +1,13 @@
-# Insert in sorted linked list
+# Linked list palindrome
 
 ## Synopsis
-This function will add a node to a linked list in sorted order.
+This function will check if a linked list is a palindrome.
 
 ## Compilation
-`gcc -Wall -Werror -Wextra -pedantic 0-main.c linked_lists.c 0-insert_number.c -o insert`
+`gcc -Wall -Werror -Wextra -pedantic *.c -o palindrome
 
 ## Usage
-* `./insert`
+* `./palindrome
 
 ## Data Structures
 ```
