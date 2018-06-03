@@ -1,13 +1,35 @@
 #include "lists.h"
 
 /**
+ * reverse_listint - reverses a listint list
+ * @head: head of linked list
+ * Return: pointer to the head of the list
+*/
+listint_t *reverse_listint(listint_t *head)
+{
+	listint_t *ptr = head, *tmp = NULL;
+
+	if (head)
+	{
+		while (ptr->next)
+		{
+			tmp = ptr->next;
+			ptr->next = ptr->next->next;
+			tmp->next = head;
+			head = tmp;
+		}
+	}
+	return (tmp ? tmp : ptr);
+}
+
+/**
  * is_palindrome - determines if a linked list is a palindrome
  * @head: pointer to linked-list head
  * Return: boolean value
  */
 int is_palindrome(listint_t **head)
 {
-	listint_t **arr, *stride = *head;
+	listint_t *stride = *head, *tmp;
 	unsigned int len = 0, i = 0;
 
 	if (!*head)
@@ -15,25 +37,18 @@ int is_palindrome(listint_t **head)
 	for (; stride ; len += 1)
 		stride = stride->next;
 
-	arr = malloc(sizeof(listint_t *) * (len / 2));
-	if (!arr)
-		return (0);
 	for (stride = *head; i < (len / 2); i++)
-	{
-		arr[((len / 2) - 1) - i] = stride;
 		stride = stride->next;
-	}
+
 	if (len % 2 != 0)
 		stride = stride->next;
-	for (i = 0 ; i < (len / 2); i++)
+	stride = reverse_listint(stride);
+	for (i = 0, tmp = *head ; i < (len / 2); i++)
 	{
-		if (arr[i]->n != stride->n)
-		{
-			free(arr);
+		if (tmp->n != stride->n)
 			return (0);
-		}
 		stride = stride->next;
+		tmp = tmp->next;
 	}
-	free(arr);
 	return (1);
 }
