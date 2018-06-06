@@ -5,9 +5,9 @@
  * @n: integer
  * Return: length of the integer
  */
-unsigned int i_len(int n)
+unsigned long i_len(unsigned long n)
 {
-	unsigned int len = 0;
+	unsigned long len = 0;
 
 	for (; n > 0; n /= 10)
 		len++;
@@ -20,9 +20,9 @@ unsigned int i_len(int n)
  * @y: integer
  * Return: x^y
  */
-unsigned int i_pow(int x, int y)
+unsigned long i_pow(unsigned long x, unsigned long y)
 {
-	unsigned int result = 1;
+	unsigned long result = 1;
 
 	for (; y > 0; y--)
 		result *= x;
@@ -36,7 +36,7 @@ unsigned int i_pow(int x, int y)
  */
 int is_palindrome(unsigned long n)
 {
-	unsigned int offset, int_len, i = 1;
+	unsigned long offset, int_len, i = 1;
 
 	if (i_len(n) < 2)
 		return (1);

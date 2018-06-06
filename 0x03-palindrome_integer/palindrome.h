@@ -2,7 +2,7 @@
 #define PALINDROME_H
 
 int is_palindrome(unsigned long n);
-unsigned int i_len(int n);
-unsigned int i_pow(int x, int y);
+unsigned long i_len(unsigned long n);
+unsigned long i_pow(unsigned long x, unsigned long y);
 
 #endif /* PALINDROME_H */
