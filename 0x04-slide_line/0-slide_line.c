@@ -1,7 +1,47 @@
 #include "slide_line.h"
 
 /**
- * shift_ints_left - moves all ints to the left
+ * combine_left - combines identical ints moving leftward
+ * @arr: a pointer to an integer array
+ * @size: number of items in the array
+ */
+void combine_left(int *arr, size_t size)
+{
+	size_t i;
+
+	for (i = 0; i < size - 1; i++)
+	{
+		if (arr[i] == arr[i + 1])
+		{
+			arr[i + 1] *= 2;
+			arr[i] = 0;
+			++i;
+		}
+	}
+}
+
+/**
+ * combine_right - combines identical ints moving rightward
+ * @arr: a pointer to an integer array
+ * @size: number of items in the array
+ */
+void combine_right(int *arr, size_t size)
+{
+	size_t i;
+
+	for (i = size - 1; i + 1 > 1; i--)
+	{
+		if (arr[i] == arr[i - 1])
+		{
+			arr[i - 1] *= 2;
+			arr[i] = 0;
+			--i;
+		}
+	}
+}
+
+/**
+ * shift_ints_left - moves all ints leftward
  * @arr: a pointer to an integer array
  * @size: number of items in the array
  */
@@ -26,7 +66,7 @@ void shift_ints_left(int *arr, size_t size)
 }
 
 /**
- * shift_ints_right - moves all ints to the right
+ * shift_ints_right - moves all ints rightward
  * @arr: a pointer to an integer array
  * @size: number of items in the array
  */
@@ -59,38 +99,19 @@ void shift_ints_right(int *arr, size_t size)
  */
 int slide_line(int *line, size_t size, int direction)
 {
-	size_t i;
-
 	if (!line || size < 1)
 		return (0);
 	switch (direction)
 	{
 		case SLIDE_LEFT:
 			shift_ints_left(line, size);
-			for (i = 0; i < size - 1; i++)
-			{
-				if (line[i] == line[i + 1])
-				{
-					line[i + 1] *= 2;
-					line[i] = 0;
-					++i;
-				}
-			}
+			combine_left(line, size);
 			shift_ints_left(line, size);
 			break;
 		case SLIDE_RIGHT:
 			shift_ints_right(line, size);
-			for (i = size - 1; i + 1 > 1; i--)
-			{
-				if (line[i] == line[i - 1])
-				{
-					line[i - 1] *= 2;
-					line[i] = 0;
-					--i;
-				}
-			}
+			combine_right(line, size);
 			shift_ints_right(line, size);
-			break;
 	}
 	return (1);
 }
