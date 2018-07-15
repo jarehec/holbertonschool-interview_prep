@@ -5,11 +5,12 @@
  * @list: pointer to the list
  * Return: number of elements in the list
  */
-size_t list_len(const skiplist_t *list)
+size_t list_len(skiplist_t *list)
 {
+	skiplist_t *walk = list;
 	size_t i = 0;
 
-	for (; list; list = list->next)
+	for (; walk; walk = walk->next)
 		++i;
 	return (i);
 }
@@ -26,34 +27,46 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 
 	if (!list)
 		return (NULL);
-	for (walkman = list; walkman->express && walkman->express->n < value;
-		walkman = walkman->express)
+	for (walkman = list; walkman; walkman = walkman->express)
 	{
-		printf("Value checked at [%lu] = [%d]\n",
+		if (walkman->express && walkman->express->n > value)
+		{
+			printf("Value checked at index [%lu] = [%d]\n",
+				walkman->express->index, walkman->express->n);
+			printf("Value found between indexes [%lu] and [%lu]\n",
+				walkman->index, walkman->express->index);
+			break;
+		}
+		else if (walkman->express && walkman->express->n == value)
+		{
+			printf("Value checked at index [%lu] = [%d]\n",
+				walkman->express->index, walkman->express->n);
+			return (walkman->express);
+		}
+		else if (walkman->n == value)
+		{
+			printf("Value checked at index [%lu] = [%d]\n",
+				walkman->index, walkman->n);
+			return (walkman);
+		}
+		else if (!walkman->express)
+		{
+			printf("Value found between indexes [%lu] and [%lu]\n",
+				walkman->index, list_len(list) - 1);
+			break;
+		}
+		else
+			printf("Value checked at index [%lu] = [%d]\n",
 				walkman->express->index, walkman->express->n);
 	}
-	if (walkman == list)
-		printf("Value checked at [%lu] = [%d]\n", walkman->express->index,
-				walkman->express->n);
-	else if (walkman->express && walkman->express->n > value)
-		printf("Value checked at [%lu] = [%d]\n", walkman->express->index,
-				walkman->express->n);
-
-	if (walkman->express)
-		printf("Value found between indexes [%lu] and [%lu]\n", walkman->index,
-				walkman->express->index);
-	else
-		printf("Value found between indexes [%lu] and [%lu]\n", walkman->index,
-				list_len(list) - 1);
-
-	while (walkman && walkman->n != value)
+	for (; walkman; walkman = walkman->next)
 	{
-		printf("Value checked at [%lu] = [%d]\n", walkman->index, walkman->n);
-		walkman = walkman->next;
+		printf("Value checked at index [%lu] = [%d]\n",
+			walkman->index, walkman->n);
+		if (walkman->n == value)
+			return (walkman);
+		if (walkman->n > value)
+			return (NULL);
 	}
-	if (walkman)
-		printf("Value checked at [%lu] = [%d]\n", walkman->index, walkman->n);
-
-	return (walkman);
+	return (NULL);
 }
-
