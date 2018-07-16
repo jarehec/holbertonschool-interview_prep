@@ -29,7 +29,7 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 		return (NULL);
 	for (walkman = list; walkman; walkman = walkman->express)
 	{
-		if (walkman->express && walkman->express->n > value)
+		if (walkman->express && walkman->express->n >= value)
 		{
 			printf("Value checked at index [%lu] = [%d]\n",
 				walkman->express->index, walkman->express->n);
