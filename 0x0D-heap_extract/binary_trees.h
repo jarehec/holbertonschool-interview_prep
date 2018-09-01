@@ -21,6 +21,7 @@ struct binary_tree_s
 typedef struct binary_tree_s binary_tree_t;
 typedef struct binary_tree_s heap_t;
 
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 heap_t *get_last_inserted(heap_t *root);
 heap_t *array_to_heap(int *array, size_t size);
 

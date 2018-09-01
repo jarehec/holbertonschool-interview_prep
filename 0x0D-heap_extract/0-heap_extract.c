@@ -72,40 +72,41 @@ heap_t *get_last_inserted(heap_t *root)
  */
 void heapify_down(heap_t *root)
 {
+	heap_t *benis = root;
 	int tmp;
 
 	if (!root)
 		return;
 
-	while (root->left || root->right)
+	while (benis->left || benis->right)
 	{
-		if (root->left && root->right)
+		if (benis->left && benis->right)
 		{
-			tmp = root->n;
-			if ((root->n < root->left->n) && (root->left->n > root->right->n))
+			tmp = benis->n;
+			if ((benis->n < benis->left->n) && (benis->left->n > benis->right->n))
 			{
-				root->n = root->left->n;
-				root->left->n = tmp;
-				root = root->left;
+				benis->n = benis->left->n;
+				benis->left->n = tmp;
+				benis = benis->left;
 			}
 			else
 			{
-				root->n = root->right->n;
-				root->right->n = tmp;
-				root = root->right;
+				benis->n = benis->right->n;
+				benis->right->n = tmp;
+				benis = benis->right;
 			}
 		}
-		else if (root->left)
+		else if (benis->left)
 		{
-			root->n = root->left->n;
-			root->left->n = tmp;
-			root = root->left;
+			benis->n = benis->left->n;
+			benis->left->n = tmp;
+			benis = benis->left;
 		}
-		else if (root->right)
+		else if (benis->right)
 		{
-			root->n = root->right->n;
-			root->right->n = tmp;
-			root = root->right;
+			benis->n = benis->right->n;
+			benis->right->n = tmp;
+			benis = benis->right;
 		}
 	}
 }
@@ -129,8 +130,15 @@ int heap_extract(heap_t **root)
 		last_inserted->parent->left = NULL;
 	else if (last_inserted->parent)
 		last_inserted->parent->right = NULL;
-	(*root)->n = last_inserted->n;
-	free(last_inserted);
+	last_inserted->left = (*root)->left;
+	last_inserted->right = (*root)->right;
+	if (last_inserted->left)
+		last_inserted->left->parent = last_inserted;
+	if (last_inserted->right)
+		last_inserted->right->parent = last_inserted;
+	last_inserted->parent = NULL;
+	free(*root);
+	(*root) = last_inserted;
 	heapify_down(*root);
 	return (n);
 }
