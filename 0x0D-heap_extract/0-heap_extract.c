@@ -72,41 +72,41 @@ heap_t *get_last_inserted(heap_t *root)
  */
 void heapify_down(heap_t *root)
 {
-	heap_t *benis = root;
+	heap_t *walk = root;
 	int tmp;
 
 	if (!root)
 		return;
 
-	while (benis->left || benis->right)
+	while (walk->left || walk->right)
 	{
-		if (benis->left && benis->right)
+		if (walk->left && walk->right)
 		{
-			tmp = benis->n;
-			if ((benis->n < benis->left->n) && (benis->left->n > benis->right->n))
+			tmp = walk->n;
+			if ((walk->n < walk->left->n) && (walk->left->n > walk->right->n))
 			{
-				benis->n = benis->left->n;
-				benis->left->n = tmp;
-				benis = benis->left;
+				walk->n = walk->left->n;
+				walk->left->n = tmp;
+				walk = walk->left;
 			}
 			else
 			{
-				benis->n = benis->right->n;
-				benis->right->n = tmp;
-				benis = benis->right;
+				walk->n = walk->right->n;
+				walk->right->n = tmp;
+				walk = walk->right;
 			}
 		}
-		else if (benis->left)
+		else if (walk->left)
 		{
-			benis->n = benis->left->n;
-			benis->left->n = tmp;
-			benis = benis->left;
+			walk->n = walk->left->n;
+			walk->left->n = tmp;
+			walk = walk->left;
 		}
-		else if (benis->right)
+		else if (walk->right)
 		{
-			benis->n = benis->right->n;
-			benis->right->n = tmp;
-			benis = benis->right;
+			walk->n = walk->right->n;
+			walk->right->n = tmp;
+			walk = walk->right;
 		}
 	}
 }
@@ -126,19 +126,12 @@ int heap_extract(heap_t **root)
 
 	n = (*root)->n;
 	last_inserted = get_last_inserted(*root);
+	(*root)->n = last_inserted->n;
 	if (last_inserted->parent && last_inserted->parent->left == last_inserted)
 		last_inserted->parent->left = NULL;
 	else if (last_inserted->parent)
 		last_inserted->parent->right = NULL;
-	last_inserted->left = (*root)->left;
-	last_inserted->right = (*root)->right;
-	if (last_inserted->left)
-		last_inserted->left->parent = last_inserted;
-	if (last_inserted->right)
-		last_inserted->right->parent = last_inserted;
-	last_inserted->parent = NULL;
-	free(*root);
-	(*root) = last_inserted;
+	free(last_inserted);
 	heapify_down(*root);
 	return (n);
 }
