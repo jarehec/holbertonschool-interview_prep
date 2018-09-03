@@ -80,9 +80,9 @@ void heapify_down(heap_t *root)
 
 	while (walk->left || walk->right)
 	{
+		tmp = walk->n;
 		if (walk->left && walk->right)
 		{
-			tmp = walk->n;
 			if ((walk->n < walk->left->n) && (walk->left->n > walk->right->n))
 			{
 				walk->n = walk->left->n;
@@ -96,18 +96,20 @@ void heapify_down(heap_t *root)
 				walk = walk->right;
 			}
 		}
-		else if (walk->left)
+		else if (walk->left && (walk->n < walk->left->n))
 		{
 			walk->n = walk->left->n;
 			walk->left->n = tmp;
 			walk = walk->left;
 		}
-		else if (walk->right)
+		else if (walk->right && (walk->n < walk->right->n))
 		{
 			walk->n = walk->right->n;
 			walk->right->n = tmp;
 			walk = walk->right;
 		}
+		else
+			return;
 	}
 }
 
@@ -121,17 +123,25 @@ int heap_extract(heap_t **root)
 	heap_t *last_inserted = NULL;
 	int n;
 
-	if (!root)
+	if (!root || !*root)
 		return (0);
 
 	n = (*root)->n;
 	last_inserted = get_last_inserted(*root);
-	(*root)->n = last_inserted->n;
-	if (last_inserted->parent && last_inserted->parent->left == last_inserted)
-		last_inserted->parent->left = NULL;
-	else if (last_inserted->parent)
-		last_inserted->parent->right = NULL;
-	free(last_inserted);
-	heapify_down(*root);
+	if ((*root) == last_inserted)
+	{
+		free(*root);
+		*root = NULL;
+	}
+	else
+	{
+		(*root)->n = last_inserted->n;
+		if (last_inserted->parent && last_inserted->parent->left == last_inserted)
+			last_inserted->parent->left = NULL;
+		else if (last_inserted->parent)
+			last_inserted->parent->right = NULL;
+		free(last_inserted);
+		heapify_down(*root);
+	}
 	return (n);
 }
