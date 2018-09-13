@@ -94,8 +94,14 @@ int main(int argc, char **argv)
 			result[i] = carry + '0';
 		carry = 0;
 	}
-	result[0] == '0' ? ++result : 0;
-	_puts(result);
+
+	if (l_len + r_len == 2)
+		i = 1;
+	else
+		for (i = 0; result[i] == '0' && result[i + 1] != '\0'; i++)
+			;
+	_puts(result + i);
+	free(result);
 
 	return (0);
 }
