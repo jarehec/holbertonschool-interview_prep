@@ -1,5 +1,4 @@
 #include "holberton.h"
-#include <stdio.h>
 
 /**
  * _isdigit - checks if string is a number
@@ -36,6 +35,16 @@ size_t _strlen(char *str)
 }
 
 /**
+ * kms - kills the program with an exit status
+ * @n: exit code
+*/
+void kms(int n)
+{
+	_puts("Error");
+	exit(n);
+}
+
+/**
  * _puts - prints a string followed by a newline
  * @str: char *
  */
@@ -61,23 +70,16 @@ int main(int argc, char **argv)
 	int carry = 0, l_len, r_len, i, j, tmp;
 
 	if (argc != 3 || _isdigit(argv[1]) != 0 || _isdigit(argv[2]) != 0)
-	{
-		_puts("Error");
-		exit(98);
-	}
+		kms(98);
 
 	l_len = _strlen(argv[1]);
 	r_len = _strlen(argv[2]);
-	result = malloc(sizeof(char) * (l_len + r_len));
+	result = malloc((l_len + r_len) * sizeof(char));
 	if (!result)
-	{
-		_puts("Error");
-		exit(98);
-	}
+		kms(98);
 
 	for (i = 0; i < l_len + r_len; i++)
 		result[i] = '0';
-
 	top = l_len > r_len ? argv[1] : argv[2];
 	bottom = l_len > r_len ? argv[2] : argv[1];
 
@@ -94,14 +96,10 @@ int main(int argc, char **argv)
 			result[i] = carry + '0';
 		carry = 0;
 	}
+	for (i = 0; result[i] == '0' && result[i + 1] != '\0'; i++)
+		;
 
-	if (l_len + r_len == 2)
-		i = 1;
-	else
-		for (i = 0; result[i] == '0' && result[i + 1] != '\0'; i++)
-			;
 	_puts(result + i);
 	free(result);
-
 	return (0);
 }
