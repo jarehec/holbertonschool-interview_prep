@@ -72,6 +72,8 @@ int main(int argc, char **argv)
 	if (argc != 3 || _isdigit(argv[1]) != 0 || _isdigit(argv[2]) != 0)
 		kms(98);
 
+	top = argv[1];
+	bottom = argv[2];
 	l_len = _strlen(argv[1]);
 	r_len = _strlen(argv[2]);
 	result = malloc((l_len + r_len) * sizeof(char));
@@ -80,8 +82,6 @@ int main(int argc, char **argv)
 
 	for (i = 0; i < l_len + r_len; i++)
 		result[i] = '0';
-	top = l_len > r_len ? argv[1] : argv[2];
-	bottom = l_len > r_len ? argv[2] : argv[1];
 
 	for (i = (l_len > r_len ? r_len : l_len) - 1; i >= 0; i--)
 	{
