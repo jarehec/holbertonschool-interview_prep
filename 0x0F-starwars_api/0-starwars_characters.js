@@ -20,12 +20,12 @@ function callback (error, response, body) {
         if (error) { console.log(error); } else {
           all.set(i, JSON.parse(body)['name']);
         }
-        if (count === lim) {
+        if (count == lim) {
           for (let j = 0; j < lim; j++) {
             console.log(all.get(j.toString()));
           }
         }
-      });
+      });     
     }
   }
 }
