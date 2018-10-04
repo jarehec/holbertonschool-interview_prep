@@ -32,4 +32,5 @@ for line in fileinput.input():
         for i in sorted(logs.keys()):
             print('{}: {}'.format(i, logs[i]))
         counter = 0
-    counter += 1
+    else:
+        counter += 1
