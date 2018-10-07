@@ -32,3 +32,6 @@ try:
             counter += 1
 except KeyboardInterrupt:
     handler()
+    sys.exit()
+
+handler()
