@@ -21,10 +21,13 @@ def handler():
 try:
     for line in sys.stdin:
         line = line.split(' ')
-        if len(line) == 9:
-            total_size += int(line[8])
-            if line[7] in valid_codes:
-                logs[line[7]] += 1
+        try:
+            total_size += int(line[-1])
+        except:
+            pass
+        if len(line) > 1:
+            if line[-2] in valid_codes:
+                logs[line[-2]] += 1
         if counter == 9:
             handler()
             counter = 0
