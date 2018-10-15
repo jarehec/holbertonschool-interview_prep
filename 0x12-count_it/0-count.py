@@ -12,6 +12,8 @@ def count_words(subreddit, word_list=[], after=None, counter={}):
         after = res['data'].get('after')
 
         if counter == {}:
+            for i in range(len(word_list)):
+                word_list[i] = word_list[i].lower()
             counter = defaultdict(int)
 
         for item in res['data']['children']:
