@@ -74,12 +74,12 @@ int *bucket_sorted(int *arr, int it, size_t size)
  */
 int get_max(int *arr, size_t size)
 {
-	int max = arr[0];
+	int max;
 
 	if (!arr || size < 2)
 		return (0);
 
-	for (--size; size > 1; size--)
+	for (max = arr[0], --size; size > 1; size--)
 		max = arr[size] > max ? arr[size] : max;
 
 	return (max);
