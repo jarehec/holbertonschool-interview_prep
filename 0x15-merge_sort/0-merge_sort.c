@@ -7,35 +7,28 @@
  * @low: start index
  * @mid: middle index
  * @high: end index
- * @size: number of elements in array
  */
-void merge(int *a, int *b, size_t low, size_t mid, size_t high, size_t size)
+void merge(int *a, int *b, size_t low, size_t mid, size_t high)
 {
-	size_t l1 = low, l2 = mid + 1, i;
+	size_t l1 = low, l2 = mid, i;
 
-	for (i = low; i <= high; i++)
-		b[i] = a[i];
-
-	/* printf("low: %lu, mid: %lu, high: %lu\n", low, mid, high);*/
+	for (i = low; i < high; i++)
+		a[i] = b[i];
 
 	printf("Merging...\n[left]: ");
-	print_array(&b[low], high - low);
+	print_array(&a[low], mid - low);
 	printf("[right]: ");
-	print_array(&b[mid + 1], size - mid);
-	for (i = low; i <= high; i++)
+	print_array(&a[mid], high - mid);
+
+	for (i = low; i < high; i++)
 	{
-		if (l1 > mid)
-			a[i] = b[l2++];
-		else if (l2 > high)
-			a[i] = b[l1++];
-		else if (b[l2] < b[l1])
-			a[i] = b[l2++];
+		if (l1 < mid && (l2 >= high || a[l1] <= a[l2]))
+			b[i] = a[l1++];
 		else
-			a[i] = b[l1++];
+			b[i] = a[l2++];
 	}
 	printf("[Done]: ");
-	print_array(&a[low], size - low);
-	/* getchar();*/
+	print_array(&b[low], high - low);
 }
 
 /**
@@ -44,19 +37,18 @@ void merge(int *a, int *b, size_t low, size_t mid, size_t high, size_t size)
  * @b: int array
  * @low: start index
  * @high: end index
- * @size: number of elements in array
  */
-void split_merge(int *a, int *b, size_t low, size_t high, size_t size)
+void split_merge(int *a, int *b, size_t low, size_t high)
 {
 	size_t mid;
 
-	if (high <= low)
+	if (high - low < 2)
 		return;
 
 	mid = (low + high) / 2;
-	split_merge(a, b, low, mid, size);
-	split_merge(a, b, mid + 1, high, size);
-	merge(a, b, low, mid, high, size);
+	split_merge(a, b, low, mid);
+	split_merge(a, b, mid, high);
+	merge(b, a, low, mid, high);
 }
 
 /**
@@ -78,6 +70,6 @@ void merge_sort(int *array, size_t size)
 	for (i = 0; i < size; i++)
 		buffer[i] = array[i];
 
-	split_merge(array, buffer, 0, size - 1, size);
+	split_merge(array, buffer, 0, size);
 	free(buffer);
 }
