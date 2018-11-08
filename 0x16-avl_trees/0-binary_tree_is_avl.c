@@ -27,9 +27,9 @@ size_t bst_height(const binary_tree_t *tree)
  * @min: min limit
  * Return: boolean
  */
-int plz_be_avl(const binary_tree_t *tree, int max, int min)
+size_t plz_be_avl(const binary_tree_t *tree, int max, int min)
 {
-	int l = bst_height(tree->left), r = bst_height(tree->right);
+	size_t l = bst_height(tree->left), r = bst_height(tree->right);
 
 	if (!tree)
 		return (0);

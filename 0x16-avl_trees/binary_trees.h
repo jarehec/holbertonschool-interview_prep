@@ -1,5 +1,5 @@
-#ifndef _BINARY_TREES_H_
-#define _BINARY_TREES_H_
+#ifndef BINARY_TREES_H
+#define BINARY_TREES_H
 
 #include <limits.h>
 #include <stdio.h>
@@ -26,7 +26,7 @@ binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 
 void binary_tree_print(const binary_tree_t *);
 size_t bst_height(const binary_tree_t *tree);
-int plz_be_avl(const binary_tree_t *tree, int max, int min);
+size_t plz_be_avl(const binary_tree_t *tree, int max, int min);
 int binary_tree_is_avl(const binary_tree_t *);
 
 #endif /* _BINARY_TREES_H_ */
