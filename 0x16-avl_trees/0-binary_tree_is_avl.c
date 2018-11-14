@@ -56,5 +56,5 @@ size_t plz_be_avl(const binary_tree_t *tree, int max, int min)
  */
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
-	return (plz_be_avl(tree, INT_MAX, INT_MIN));
+	return (tree ? plz_be_avl(tree, INT_MAX, INT_MIN) : 0);
 }
