@@ -12,7 +12,7 @@ def to_bin(data):
 def validUTF8(data):
     """ validates utf8 bytes """
     if len(data) < 1:
-        return False
+        return True
     bin_data = to_bin(data)
     if data[0] <= 127 and data[0] >= 0:
         for i in data:
@@ -25,6 +25,4 @@ def validUTF8(data):
         if i == '0':
             break
         n_bytes += 1
-    if n_bytes != len(data):
-        return False
-    return True
+    return n_bytes == len(data) and n_bytes <= 4
