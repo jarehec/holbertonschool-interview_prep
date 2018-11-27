@@ -4,25 +4,25 @@ Module containing utf validator
 """
 
 
-def to_bin(data):
-    """ gives the 8 bit binary representation """
-    return [bin(i)[2:].zfill(8) for i in data]
-
-
 def validUTF8(data):
     """ validates utf8 bytes """
     if len(data) < 1:
         return True
-    bin_data = to_bin(data)
-    if data[0] <= 127 and data[0] >= 0:
-        for i in data:
-            if i < 0 or i > 127:
-                return False
-        return True
-
-    n_bytes = 0
-    for i in bin_data[0]:
-        if i == '0':
-            break
-        n_bytes += 1
-    return n_bytes == len(data) and n_bytes <= 4
+    offset = 0
+    size = len(data)
+    print(data)
+    while offset < size:
+        n_bytes = 0
+        if offset == (size - 1) and data[offset] > 127:
+            return False
+        if data[offset] <= 127 and data[offset] >= 0:
+            offset += 1
+            continue
+        for i in bin(data[offset])[2:].zfill(8):
+            if i == '0':
+                break
+            n_bytes += 1
+        offset += n_bytes
+        if n_bytes > 4 or offset > size:
+            return False
+    return True
