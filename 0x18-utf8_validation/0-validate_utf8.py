@@ -22,6 +22,9 @@ def validUTF8(data):
             if i == '0':
                 break
             n_bytes += 1
+        for i in data[offset + 1: offset + n_bytes]:
+            if bin(i)[2:].zfill(8)[:2] != '10':
+                return False
         offset += n_bytes
         if n_bytes > 4 or offset > size:
             return False
