@@ -27,7 +27,7 @@ def isWinner(x, nums):
                 for i in nums:
                     if i % temp == 0:
                         nums.remove(i)
-                if turn % 2 != 0:
+                if turn % 2 == 0:
                     p1 += 1
                 else:
                     p2 += 1
