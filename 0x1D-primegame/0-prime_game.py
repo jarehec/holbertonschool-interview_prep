@@ -15,8 +15,9 @@ def isPrime(n: int) -> bool:
 
 
 def isWinner(x, nums):
-    """ blah blah blah blah blah """
-    p1, p2 = int(), int()
+    """ determines the winner of the game """
+    p1 = int()
+    p2 = int()
 
     for turn in range(x):
         for n in range(len(nums)):
@@ -34,6 +35,8 @@ def isWinner(x, nums):
 
             if n + 1 == len(nums) and p1 == 0 and p2 == 0:
                 return None
+    if p1 == p2:
+        return None
     if p1 > p2:
         return "Maria"
     return "Ben"
