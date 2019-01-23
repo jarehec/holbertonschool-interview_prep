@@ -29,6 +29,8 @@ int walk(char *s1, char *s2, int *offset)
 
 	if (!str_len(s1, 0) || !str_len(s2, 0))
 		return (1);
+	if (!str_len(s1, 0) && s2[str_len(s2, 0) - 1] != '*')
+		return (0);
 	if (*s1 == *s2)
 		return (walk(++s1, ++s2, offset));
 
